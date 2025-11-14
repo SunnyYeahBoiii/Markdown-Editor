@@ -1,15 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Oswald:wght@200..700&display=swap');
 *{
+    font-family: DM Mono;
     padding: 0;
     margin: 0;
+}
+
+html{
+    overflow: hidden;
+}
+
+#nav-bar{
+    position: relative;
+    height: 5vh;
+    padding: 0 10px;
+}
+
+#nav-item-left{
+    position: absolute;
+    top: 50%;
+    transform: translate(0 , -50%);
+}
+#nav-item-center{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% , -50%);
+}
+#nav-item-right{
+    position: absolute;
+    right:0;
+    top: 50%;
+    transform: translate(-10px , -50%);
+}
+
+#side-panel{
+    background-color: white;
+}
+
+#side-panel button{
+    outline: 0;
+    border: 0;
+    background-color: rgb(226, 226, 226);
+    padding: 10px;
+
+    cursor: pointer;
 }
 
 
 #split-editor{
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 95vh;
 
     flex-direction: row;
 }
@@ -24,7 +66,7 @@
 
 .cm-editor { /* This is the root element of the CodeMirror editor */
   flex: 1;
-  height: 100vh !important;
+  height: 95vh !important;
   /* Other styles like min-height, max-height if needed */
     overflow: hidden !important;
 }
@@ -39,9 +81,9 @@
 }
 
 #preview-area{
-    font-family: Sans-serif;
+    font-family: consolas;
     width: 50%;
-    height: 100vh;
+    height: 100%;
 
     border: 1px solid black;
     border-left: none;
@@ -55,10 +97,10 @@
 }
 
 #preview-area ul li{
-    margin-left: 1.5rem;
+    margin-left: 3rem;
 }
 #preview-area ol li{
-    margin-left: 1.5rem;
+    margin-left: 3rem;
 }
 
 #preview-area h1 , #preview-area h2 , #preview-area h3 , #preview-area h4 , #preview-area h5{

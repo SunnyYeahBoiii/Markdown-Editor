@@ -2,7 +2,7 @@ import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { EditorView, basicSetup } from "codemirror";
 import { markdown } from "@codemirror/lang-markdown";
 import { bracketMatching, indentOnInput, language } from "@codemirror/language";
-import { defaultKeymap } from "@codemirror/commands";
+import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import {keymap} from "@codemirror/view"
 import {EditorState ,Prec} from "@codemirror/state"
 import { Marked } from "marked";
@@ -10,6 +10,7 @@ import hljs from 'highlight.js';
 import Prism from 'prismjs';
 import { markedHighlight } from "marked-highlight";
 import markedKatex from "marked-katex-extension";
+import {NavBar} from "./navBar.jsx"
 
 const options = {
   nonStandard: true,
@@ -94,6 +95,7 @@ export default function App() {
       basicSetup,
       markdown(),
       bracketMatching(),
+      keymap.of([indentWithTab]),
       indentOnInput(),
       Prec.high(shortcut()),
       myTheme,
@@ -105,14 +107,12 @@ export default function App() {
     ],
   })
 
-  let view;
-
   useEffect( () => {
-    view = new EditorView({
-      state,
-      parent: document.getElementById("text-editor"),
+    textRef.current = new EditorView({
+        state,
+        parent: document.getElementById("text-editor"),
     });
-    previewRef.current.innerHTML = marked.parse(view.state.doc.toString());
+    previewRef.current.innerHTML = marked.parse(textRef.current.state.doc.toString());
 
     textEditor = document.querySelector(".cm-scroller")
     if(textEditor){
@@ -133,6 +133,9 @@ export default function App() {
 
   return (
     <>
+      <div id ="nav-area">
+        <NavBar textRef={textRef}/>
+      </div>
       <div id="split-editor">
 
         <div id = "editor-area">
