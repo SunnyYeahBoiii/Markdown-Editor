@@ -64,12 +64,23 @@ html{
     overflow: hidden;
 }
 
-.cm-editor { /* This is the root element of the CodeMirror editor */
+.cm-editor {
   flex: 1;
   height: 95vh !important;
-  /* Other styles like min-height, max-height if needed */
-    overflow: hidden !important;
 }
+.ͼ1 .cm-cursor{
+    transition: all 0.1s ease !important;
+}
+
+@keyframes custom-caret-animation {
+  from {
+    caret-color: transparent; /* Start with transparent caret */
+  }
+  to {
+    caret-color: red; /* End with the desired caret color */
+  }
+}
+
 
 #text-area{
     resize: none;
@@ -109,4 +120,16 @@ html{
 
 #preview-area p{
     margin-left: 1.5rem;
+}
+
+
+/*  Additional CSS */
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td, th{
+    padding: 5px;
 }

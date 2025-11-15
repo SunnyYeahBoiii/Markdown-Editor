@@ -47,7 +47,7 @@ const myTheme = EditorView.theme({
   }
 });
 
-export default function App() {
+export default function App({localFileContent}) {
   const [value, setValue] = useState("");
   const ref = useRef(null);
   const previewRef = useRef(null)
@@ -88,9 +88,19 @@ export default function App() {
   }
 
   const lineWrapping = EditorView.lineWrapping;
-  
+
+  let timeOutId;
+
+  const debounceUpdate = (update) => {
+    if(timeOutId) clearTimeout(timeOutId);
+
+    timeOutId = setTimeout(() => {
+      previewRef.current.innerHTML = marked.parse(update.state.doc.toString())
+    } , 300);
+  }
+
   const state = EditorState.create({
-    doc: "```cpp\n#include<bits/stdc++.h>\n```",
+    doc: localFileContent,
     extensions: [
       basicSetup,
       markdown(),
@@ -101,7 +111,7 @@ export default function App() {
       myTheme,
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
-          previewRef.current.innerHTML = marked.parse(update.state.doc.toString());
+          debounceUpdate(update);
         }
       })
     ],
