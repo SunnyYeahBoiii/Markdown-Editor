@@ -12,6 +12,33 @@ import { markedHighlight } from "marked-highlight";
 import markedKatex from "marked-katex-extension";
 import {NavBar} from "./navBar.jsx"
 
+import * as IncrementalDOM from 'incremental-dom'
+import MarkdownIt from 'markdown-it'
+import MarkdownItIncrementalDOM from 'markdown-it-incremental-dom'
+import mk from "markdown-it-katex";
+import "katex/dist/katex.min.css";
+
+const md = new MarkdownIt({
+  html:         true,
+  xhtmlOut:     true,
+  breaks:       true,
+  langPrefix:   'language-',
+  linkify:      true,
+  typographer:  true,
+  quotes: '“”‘’',
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) {}
+    }
+
+    return ''; // use external default escaping
+  }
+}).use(MarkdownItIncrementalDOM, IncrementalDOM)
+
+
+
 const options = {
   nonStandard: true,
   throwOnError: false
@@ -95,8 +122,9 @@ export default function App({localFileContent}) {
     if(timeOutId) clearTimeout(timeOutId);
 
     timeOutId = setTimeout(() => {
-      previewRef.current.innerHTML = marked.parse(update.state.doc.toString())
-    } , 300);
+      const func = md.renderToIncrementalDOM(update.state.doc.toString());
+      IncrementalDOM.patch(previewRef.current , func);
+    } , 1);
   }
 
   const state = EditorState.create({
@@ -118,11 +146,13 @@ export default function App({localFileContent}) {
   })
 
   useEffect( () => {
+    console.log(previewRef.current);
     textRef.current = new EditorView({
         state,
         parent: document.getElementById("text-editor"),
     });
-    previewRef.current.innerHTML = marked.parse(textRef.current.state.doc.toString());
+    const func = md.renderToIncrementalDOM(localFileContent);
+    IncrementalDOM.patch(previewRef.current , func);
 
     textEditor = document.querySelector(".cm-scroller")
     if(textEditor){
