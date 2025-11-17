@@ -1,15 +1,40 @@
 import { options } from 'marked';
 import { React, useState , useRef } from 'react';
 
-export function SidePanel({textRef, style , closeFunc}){
+import * as IncrementalDOM from 'incremental-dom'
+import MarkdownIt from 'markdown-it'
+import MarkdownItIncrementalDOM from 'markdown-it-incremental-dom'
+import mk from "@traptitech/markdown-it-katex";
+import "katex/dist/katex.min.css";
+import markdownItMathjax3 from "markdown-it-mathjax3";
+
+const md = new MarkdownIt({
+  html:         true,
+  xhtmlOut:     true,
+  breaks:       true,
+  langPrefix:   'language-',
+  linkify:      true,
+  typographer:  true,
+  quotes: '“”‘’',
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) {}
+    }
+
+    return ''; // use external default escaping
+  }
+}).use(MarkdownItIncrementalDOM, IncrementalDOM)
+
+
+
+export function SidePanel({previewRef , textRef, style , closeFunc}){
     const sidePanelRed = useRef(null)
 
     const handleUploadFile = async (e) => {
         e.preventDefault();
         try{
-            console.log(textRef)
-            console.log(style)
-            console.log(closeFunc)
             const [fileHandle] = await window.showOpenFilePicker({types: [
                 {
                     description: "Markdown Files",
@@ -32,8 +57,10 @@ export function SidePanel({textRef, style , closeFunc}){
                         insert: fileContent,
                     }
                 })
-                console.log(textRef.current.state.doc.length)
-                textRef.current.dispatch(trans);
+                textRef.current.dispatch(trans)
+                const func = md.renderToIncrementalDOM(fileContent);
+                IncrementalDOM.patch(previewRef.current , func);
+                console.log(previewRef)
             }
 
             fr.readAsText(file)
@@ -54,7 +81,6 @@ export function SidePanel({textRef, style , closeFunc}){
                 }
             ]});
 
-            console.log(fileHandle)
             const writable = await fileHandle.createWritable();
             await writable.write(textRef.current.state.doc.toString());
             await writable.close();

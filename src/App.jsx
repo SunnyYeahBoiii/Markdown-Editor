@@ -15,8 +15,9 @@ import {NavBar} from "./navBar.jsx"
 import * as IncrementalDOM from 'incremental-dom'
 import MarkdownIt from 'markdown-it'
 import MarkdownItIncrementalDOM from 'markdown-it-incremental-dom'
-import mk from "markdown-it-katex";
+import mk from "@traptitech/markdown-it-katex";
 import "katex/dist/katex.min.css";
+import markdownItMathjax3 from "markdown-it-mathjax3";
 
 const md = new MarkdownIt({
   html:         true,
@@ -35,7 +36,7 @@ const md = new MarkdownIt({
 
     return ''; // use external default escaping
   }
-}).use(MarkdownItIncrementalDOM, IncrementalDOM)
+}).use(MarkdownItIncrementalDOM, IncrementalDOM).use(mk, {"blockClass": "math-block", "errorColor" : " #cc0000"});
 
 
 
@@ -87,7 +88,6 @@ export default function App({localFileContent}) {
   function wrap(view , marker){
     const {from , to} = view.state.selection.main
 
-    console.log(from , to); 
     view.dispatch({changes:[{from: view.state.selection.main['from'] , insert: marker} , {from: view.state.selection.main['to'] , insert: marker}]})
     return true;
   }
@@ -124,7 +124,8 @@ export default function App({localFileContent}) {
     timeOutId = setTimeout(() => {
       const func = md.renderToIncrementalDOM(update.state.doc.toString());
       IncrementalDOM.patch(previewRef.current , func);
-    } , 1);
+      localStorage.setItem('markdown' , textRef.current.state.doc.toString());
+    } , 300);
   }
 
   const state = EditorState.create({
@@ -146,7 +147,6 @@ export default function App({localFileContent}) {
   })
 
   useEffect( () => {
-    console.log(previewRef.current);
     textRef.current = new EditorView({
         state,
         parent: document.getElementById("text-editor"),
@@ -156,7 +156,6 @@ export default function App({localFileContent}) {
 
     textEditor = document.querySelector(".cm-scroller")
     if(textEditor){
-      console.log(textEditor)
       textEditor.addEventListener("scroll" , () => {
         const perc = textEditor.scrollTop / (textEditor.scrollHeight - textEditor.clientHeight)  * 100;
         previewArea.scrollTop = (previewArea.scrollHeight - previewArea.clientHeight) / 100 * perc;
@@ -174,7 +173,7 @@ export default function App({localFileContent}) {
   return (
     <>
       <div id ="nav-area">
-        <NavBar textRef={textRef}/>
+        <NavBar previewRef={previewRef} textRef={textRef}/>
       </div>
       <div id="split-editor">
 

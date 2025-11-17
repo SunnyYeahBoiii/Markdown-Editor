@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { SidePanel } from "./sidePanel";
 
-export function NavBar({textRef}){
+export function NavBar({previewRef , textRef}){
     const [date , setDate] = useState(null)
     const sideRef = useRef(null)
     const [panelOpen , setPanelOpen] = useState(false);
@@ -29,7 +29,6 @@ export function NavBar({textRef}){
 
     const handlePanelButton = () => {
         openPanel();
-        console.log(textRef);
     }
 
     const closePanel = () => {
@@ -50,7 +49,7 @@ export function NavBar({textRef}){
         <>
             <div id="nav-bar">
                 <p id='nav-item-left' onClick={handlePanelButton}>  Side Panel</p>
-                <SidePanel textRef={textRef} style={sidePanelStyle} closeFunc={() => {
+                <SidePanel previewRef={previewRef} textRef={textRef} style={sidePanelStyle} closeFunc={() => {
                     setPanelOpen(false)
                     setSidePanelStyle(prevStyle => {return {...prevStyle , transform: 'translateX(-100%)'};
                 })}}/>
