@@ -10,7 +10,7 @@ import hljs from 'highlight.js';
 import Prism from 'prismjs';
 import { markedHighlight } from "marked-highlight";
 import markedKatex from "marked-katex-extension";
-import {NavBar} from "./navBar.jsx"
+import {NavBar} from "./util/navBar.jsx"
 
 import * as IncrementalDOM from 'incremental-dom'
 import MarkdownIt from 'markdown-it'
@@ -18,6 +18,7 @@ import MarkdownItIncrementalDOM from 'markdown-it-incremental-dom'
 import mk from "@traptitech/markdown-it-katex";
 import "katex/dist/katex.min.css";
 import markdownItMathjax3 from "markdown-it-mathjax3";
+import DragLine from './util/dragLine.jsx';
 
 const md = new MarkdownIt({
   html:         true,
@@ -82,6 +83,8 @@ export default function App({localFileContent}) {
   const textEditorRef = useRef(null)
   const fileInputRef = useRef(null)
   let textEditor , previewArea;
+  const textAreaRef = useRef(null);
+  const previewAreaRef = useRef(null);
  
   const textRef = useRef(null);
 
@@ -177,11 +180,13 @@ export default function App({localFileContent}) {
       </div>
       <div id="split-editor">
 
-        <div id = "editor-area">
-            <div  id = "text-editor"></div>
+        <div ref={textAreaRef} id = "editor-area">
+            <div id = "text-editor"></div>
         </div>
 
-        <div id = "preview-area">
+        <DragLine previewRef={previewAreaRef} textRef={textAreaRef}/>
+
+        <div ref={previewAreaRef} id = "preview-area">
             <div ref={previewRef} id = "preview"></div>
         </div>
 

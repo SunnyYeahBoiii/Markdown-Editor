@@ -34,6 +34,10 @@ html{
     transform: translate(-10px , -50%);
 }
 
+#nav-item-left{
+    cursor: pointer;
+}
+
 #side-panel{
     background-color: white;
 }
@@ -53,14 +57,32 @@ html{
     width: 100%;
     height: 95vh;
 
+    border-top: 1px solid black;
     flex-direction: row;
+    
+    position: relative;
+}
+
+#mid-line-area{
+    position: absolute;
+    left: 50%;
+    height: 100vh;
+    width: 5px;
+    cursor: e-resize;
+    display: flex;
+    justify-content: center;
+}
+
+
+#mid-line{
+    height: 100%;
+    width: 1px;
+    background-color: black;
 }
 
 #editor-area{
     width: 50%;
     height: 100%;
-
-    border: 1px solid black;
     overflow: hidden;
 }
 
@@ -95,12 +117,10 @@ html{
     font-family: consolas;
     width: 50%;
     height: 100%;
-
-    border: 1px solid black;
     border-left: none;
 
     overflow: scroll;
-    overflow-wrap:anywhere;
+    /* overflow-wrap:anywhere; */
 }
 
 #preview-area code{
