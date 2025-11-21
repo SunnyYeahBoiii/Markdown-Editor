@@ -6,10 +6,9 @@ function DragLine({previewRef , textRef}){
 
     const handleDrag = (e) => {
         lineAreaRef.current.style.left = `${e.clientX}px`;
-        textRef.current.style.width = `${e.clientX}px`;
-        previewRef.current.style.width = `calc(100vw - ${e.clientX}px)`;
+        textRef.current.style.width = `${e.clientX - 5}px`;
+        previewRef.current.style.width = `calc(100vw - ${e.clientX + 10}px)`;
 
-        
     }
 
     const handleMouseDown = () => {
