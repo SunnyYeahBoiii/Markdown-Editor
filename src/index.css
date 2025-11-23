@@ -2,8 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Oswald:wght@200..700&display=swap');
 *{
     font-family: DM Mono;
-    padding: 0;
-    margin: 0;
 }
 
 html{
@@ -151,6 +149,54 @@ table, th, td {
   border-collapse: collapse;
 }
 
+table{
+    margin: 0 auto;
+}
+
 td, th{
     padding: 5px;
+}
+
+*{
+    font-family: JetBrains Mono Nerd Font, consolas;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.dir, .root{
+    position: relative;
+}
+
+.root{
+    overflow: auto;
+    overflow-x: auto;
+    height: 65vh;
+}
+
+.dir-name{
+    padding: 2px;
+    position: relative;
+    width: auto;
+}
+
+.dir-name::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -2rem;
+    border-top: 2px dashed black;
+    width: 2rem;
+    height: 10px;
+}
+
+.horizontal-line{
+    width: 1px;
+    position: absolute;
+    top: 1.4rem;
+    border-left: 2px dashed black;
+}
+
+.hidden{
+    display: none;
 }

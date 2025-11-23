@@ -7,6 +7,7 @@ import MarkdownItIncrementalDOM from 'markdown-it-incremental-dom'
 import mk from "@traptitech/markdown-it-katex";
 import "katex/dist/katex.min.css";
 import markdownItMathjax3 from "markdown-it-mathjax3";
+import FileNavigator from './FileNavigator/FileNavigator';
 
 const md = new MarkdownIt({
   html:         true,
@@ -32,22 +33,13 @@ const md = new MarkdownIt({
 export function SidePanel({previewRef , textRef, style , closeFunc}){
     const sidePanelRed = useRef(null)
 
-    const handleUploadFile = async (e) => {
-        e.preventDefault();
+    const renderFile = async (fileHandle) => {
         try{
-            const [fileHandle] = await window.showOpenFilePicker({types: [
-                {
-                    description: "Markdown Files",
-                    accept: {
-                        "text/markdown" : [".md" , ".markdown"]
-                    }
-                }
-            ]});
-
+            console.log("RENDER")
             const file = await fileHandle.getFile();
-
+            
             const fr = new FileReader();
-
+            
             fr.onload = (e) => {
                 const fileContent = e.target.result;
                 const trans = textRef.current.state.update({
@@ -62,10 +54,28 @@ export function SidePanel({previewRef , textRef, style , closeFunc}){
                 IncrementalDOM.patch(previewRef.current , func);
                 console.log(previewRef)
             }
-
+            
             fr.readAsText(file)
         } catch{
             
+        }
+    }
+
+    const handleUploadFile = async (e) => {
+        e.preventDefault();
+        try{
+            const [fileHandle] = await window.showOpenFilePicker({types: [
+                {
+                    description: "Markdown Files",
+                    accept: {
+                        "text/markdown" : [".md" , ".markdown"]
+                    }
+                }
+                
+            ]});
+            renderFile(fileHandle);
+        } catch{
+            console.log("ERROR OCCURED");
         }
     }
 
@@ -95,6 +105,7 @@ export function SidePanel({previewRef , textRef, style , closeFunc}){
                 <button onClick={closeFunc}>Close Panel</button>
                 <button onClick = {handleUploadFile}>Upload File</button>
                 <button onClick = {handleSaveFile}>Save File As</button>
+                <FileNavigator fileRenderer={renderFile}/>
             </aside>
         </>
     );
