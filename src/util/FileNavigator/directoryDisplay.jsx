@@ -22,7 +22,7 @@ export function DirectoryDisplay({fileRenderer, directoryTree}){
             if(lastDir === null)
                 continue;
             const nodeLine = element.querySelector(":scope > div > .horizontal-line")
-            nodeLine.style.height = `${lastDir.offsetTop - 5}px`;
+            nodeLine.style.height = `${lastDir.offsetTop}px`;
 
             element = element.parentElement;
         }
@@ -69,7 +69,7 @@ export function DirectoryDisplay({fileRenderer, directoryTree}){
             if(lastDir === null)
                 continue;
             const nodeLine = nodeList[i].querySelector(":scope > div > .horizontal-line")
-            nodeLine.style.height = `${lastDir.offsetTop - 7}px`;
+            nodeLine.style.height = `${lastDir.offsetTop}px`;
         }
     } , [directoryTree]);
     

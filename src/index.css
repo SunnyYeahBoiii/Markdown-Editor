@@ -185,16 +185,16 @@ td, th{
     position: absolute;
     top: 50%;
     left: -2rem;
-    border-top: 2px dashed black;
     width: 2rem;
-    height: 10px;
+    height: 1px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
 .horizontal-line{
     width: 1px;
     position: absolute;
     top: 1.4rem;
-    border-left: 2px dashed black;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
 .hidden{
