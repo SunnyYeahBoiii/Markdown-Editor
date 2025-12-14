@@ -40,33 +40,6 @@ const md = new MarkdownIt({
 }).use(MarkdownItIncrementalDOM, IncrementalDOM).use(mk, {"blockClass": "math-block", "errorColor" : " #cc0000"});
 
 
-
-const options = {
-  nonStandard: true,
-  throwOnError: false
-};
-
-const marked = new Marked(
-  markedHighlight({
-	emptyLangClass: 'hljs',
-    langPrefix: 'hljs language-',
-    highlight(code, lang, info) {
-      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-      // console.log(lang , language)
-      return hljs.highlight(code, { language }).value;
-    }
-  })
-);
-
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-  headerIds: true,
-  mangle: false,
-});
-
-marked.use(markedKatex(options));
-
 const myTheme = EditorView.theme({
   "&": {
     height: "100%", // Or flex: 1 as shown above
@@ -125,13 +98,14 @@ export default function App({localFileContent}) {
     if(timeOutId) clearTimeout(timeOutId);
 
     timeOutId = setTimeout(() => {
+      console.log('rerender');
       const func = md.renderToIncrementalDOM(update.state.doc.toString());
       IncrementalDOM.patch(previewRef.current , func);
       localStorage.setItem('markdown' , textRef.current.state.doc.toString());
     } , 300);
   }
 
-  const state = EditorState.create({
+  const [state] = useState(EditorState.create({
     doc: localFileContent,
     extensions: [
       basicSetup,
@@ -147,7 +121,7 @@ export default function App({localFileContent}) {
         }
       })
     ],
-  })
+  }))
 
   useEffect( () => {
     textRef.current = new EditorView({
@@ -190,10 +164,6 @@ export default function App({localFileContent}) {
             <div ref={previewRef} id = "preview"></div>
         </div>
 
-      </div>
-
-      <div id = "file-area">
-         <input ref={fileInputRef} id = "file-input" type='file' accept='.md , .markdown'/>
       </div>
     </>
   );

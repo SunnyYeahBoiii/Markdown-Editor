@@ -118,8 +118,28 @@ html{
     height: 100%;
     border-left: none;
 
-    overflow: scroll;
-    /* overflow-wrap:anywhere; */
+    white-space: no-wrap !important;
+    overflow-x: scroll;
+}
+
+#preview-area h1{
+    font-size: 2em;
+}
+
+#preview-area h2{
+    font-size: 1.5em;
+}
+
+#preview-area h3{
+    font-size: 1.17em;
+}
+
+#preview-area h4{
+    font-size: 0.83em;
+}
+
+#preview-area h5{
+    font-size: .75em;
 }
 
 #preview-area code{
@@ -166,6 +186,7 @@ td, th{
 
 .dir, .root{
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .root{
@@ -198,5 +219,5 @@ td, th{
 }
 
 .hidden{
-    display: none;
+    display:none;
 }

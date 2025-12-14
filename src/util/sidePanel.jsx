@@ -28,14 +28,26 @@ const md = new MarkdownIt({
   }
 }).use(MarkdownItIncrementalDOM, IncrementalDOM)
 
+const sidePanelStyle = {
+    borderRight: '1px solid black',
+    height: '100vh',
+    position: 'fixed',
+    left: '0',
+    margin: '0',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    padding: '20px',
+    zIndex: '100',
+    transform: 'translateX(-100%)',
+    transition: 'transform 0.5s ease',
+};
 
-
-export function SidePanel({previewRef , textRef, style , closeFunc}){
+export function SidePanel({sideRef , previewRef , textRef, style , closeFunc}){
     const sidePanelRed = useRef(null)
 
     const renderFile = async (fileHandle) => {
         try{
-            console.log("RENDER")
             const file = await fileHandle.getFile();
             
             const fr = new FileReader();
@@ -101,7 +113,7 @@ export function SidePanel({previewRef , textRef, style , closeFunc}){
 
     return (
         <>
-            <aside id="side-panel" style={style}>
+            <aside ref={sideRef} id="side-panel" style={sidePanelStyle}>
                 <button onClick={closeFunc}>Close Panel</button>
                 <button onClick = {handleUploadFile}>Upload File</button>
                 <button onClick = {handleSaveFile}>Save File As</button>

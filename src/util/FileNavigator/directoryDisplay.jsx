@@ -46,7 +46,7 @@ export function DirectoryDisplay({fileRenderer, directoryTree}){
             <div  style={{
                 marginLeft: `${depth > 1 ? "2rem" : ""}`,
             }} className={depth > 1 ? "dir" : "root"}>
-                <DirButton id={`dir${dirId++}`} onClick={handleDirButton} className={depth > 1 ? "dir-name" : ""} buttonText={directoryTree.name}/>
+                <DirButton id={`dir${dirId++}`} onClick={handleDirButton} className={depth > 1 ? "dir-name" : ""} buttonText={'\\' + directoryTree.name}/>
                 <div className={depth > 1 ? "hidden" : ""}>
                 <HorizontalLine height={0}/>
                 {
