@@ -1,5 +1,12 @@
 # Markdown Editor
 
+## Framework + Libraries:
+These are frameworks and libraries that I used:
+- [ReactJS](https://react.dev/)
+- [Code Mirror](https://codemirror.net/)
+- [MarkdownIt](https://www.npmjs.com/package/markdown-it)
+- [HighlightJS](https://highlightjs.readthedocs.io/en/latest/#)
+
 ## Overview:
 
 Through out markdown editors that I have used, I couldn't help myself thinking to build my own markdown editor. All I wanted is a lightweight editor that supports mathtex, across devices synchronous. So I started building this project.
