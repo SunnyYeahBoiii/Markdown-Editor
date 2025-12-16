@@ -1,8 +1,9 @@
 import {useState} from 'react'
 import {DirectoryDisplay} from "./directoryDisplay.jsx"
 
-function FileNavigator({fileRenderer}){
+function FileNavigator(){
     const [directoryTree , setDirectoryTree] = useState([]);
+    
     async function DFS(dir){
           if(dir.kind == 'file'){
               return {
@@ -42,7 +43,7 @@ function FileNavigator({fileRenderer}){
     return (
         <>
             <button onClick={handleOpenDirectory}>Open Directory</button>
-            <DirectoryDisplay fileRenderer={fileRenderer} directoryTree={directoryTree} />
+            <DirectoryDisplay directoryTree={directoryTree} />
         </>
     );
 }
