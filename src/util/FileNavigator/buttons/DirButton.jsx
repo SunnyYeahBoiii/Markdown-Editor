@@ -2,7 +2,7 @@ import {useState , useEffect , useRef} from 'react'
 import { HorizontalLine } from './horizontalLine';
 import { FileButton } from './FileButton';
 
-export function DirButton({childList , id , className , buttonText}){
+export function DirButton({fileRenderer, childList , id , className , buttonText}){
     const [open , setOpen] = useState(false);
     const [childContent , setChildContent] = useState(null);
     const [loadLine , setLoadLine] = useState(false);
@@ -10,12 +10,12 @@ export function DirButton({childList , id , className , buttonText}){
 
     const renderChild = (child) => {
         console.log(child)
-        console.log(child.file);
         if(child.file){
+            console.log(child.file)
             return (<div style={{
                 marginLeft: `2rem`,
             }} className={"dir"}>
-                <FileButton file={child.file} buttonText={child.name} className={"dir-name"} />
+                <FileButton fileRenderer={fileRenderer} file={child} buttonText={child.name} className={"dir-name"} />
             </div> 
             );
         }else{
@@ -23,7 +23,7 @@ export function DirButton({childList , id , className , buttonText}){
                 <div  style={{
                     marginLeft: `2rem`,
                 }} className={"dir"}>
-                    <DirButton childList={child.childs} onClick={handleDirButton} className={"dir-name"} buttonText={'\\' + child.name}/>
+                    <DirButton childList={structuredClone(child.childs)} onClick={handleDirButton} className={"dir-name"} buttonText={'\\' + child.name}/>
                 </div>
             </>);
         }

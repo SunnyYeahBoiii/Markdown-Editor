@@ -1,22 +1,11 @@
 import { useState, useEffect, useRef } from "react"
 import { SidePanel } from "./sidePanel";
+import Clock from './FileNavigator/Clock'
 
 export function NavBar({previewRef , textRef}){
-    const [date , setDate] = useState(null)
+    
     const [panelOpen , setPanelOpen] = useState(false);
     
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            const current_date = new Date();
-            const dateString = `${current_date.getHours() < 10 ? '0' : ''}${current_date.getHours()}:${current_date.getMinutes() < 10 ? '0' : ''}${current_date.getMinutes()}:${current_date.getSeconds() < 10 ? '0' : ''}${current_date.getSeconds()}`
-            setDate(dateString)
-        } , 1000);
-
-        return () => {
-            clearInterval(intervalId);
-        }
-    })
-
     const handlePanelButton = () => {
         openPanel();
     }
@@ -45,7 +34,7 @@ export function NavBar({previewRef , textRef}){
                     closePanel();
                 }}/>
                 <p id='nav-item-center'>Markdown Editor</p>
-                <p id='nav-item-right'>Time: {date}</p>
+                <Clock></Clock>
             </div>  
         </>
     );

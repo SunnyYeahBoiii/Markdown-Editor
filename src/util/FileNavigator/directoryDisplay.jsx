@@ -2,7 +2,7 @@ import { Fragment , useEffect, useRef } from "react";
 import { DirButton } from "./buttons/DirButton.jsx";
 import { FileButton } from "./buttons/FileButton.jsx";
 
-export function DirectoryDisplay({directoryTree}){
+export function DirectoryDisplay({directoryTree , fileRenderer}){
     const renderDirectoryTree = (directoryTree , depth) => {
         if(depth > 1) return (<></>);
         if(directoryTree.length === 0 ) return (<></>);
@@ -11,7 +11,7 @@ export function DirectoryDisplay({directoryTree}){
             return (<div style={{
                 marginLeft: `2rem`,
             }} className={depth > 1 ? "dir" : "root"}>
-                <FileButton file={directoryTree.file} buttonText={directoryTree.name} className={depth > 1 ? "dir-name" : ""} />
+                <FileButton fileRenderer={fileRenderer} file={directoryTree.file} buttonText={directoryTree.name} className={depth > 1 ? "dir-name" : ""} />
             </div> 
            );
         }
@@ -21,9 +21,8 @@ export function DirectoryDisplay({directoryTree}){
 
         return (
             <div  style={{
-                marginLeft: `2rem`,
             }} className={depth > 1 ? "dir" : "root"}>
-                <DirButton childList={JSON.parse(JSON.stringify(directoryTree.childs))} className={depth > 1 ? "dir-name" : ""} buttonText={'\\' + directoryTree.name}/>
+                <DirButton fileRenderer={fileRenderer} childList={structuredClone(directoryTree.childs)} className={depth > 1 ? "dir-name" : ""} buttonText={'\\' + directoryTree.name}/>
             </div>
         );
     }

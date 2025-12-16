@@ -1,20 +1,22 @@
 import {useState} from 'react'
 import {DirectoryDisplay} from "./directoryDisplay.jsx"
 
-function FileNavigator(){
+function FileNavigator({fileRenderer}){
     const [directoryTree , setDirectoryTree] = useState([]);
     
     async function DFS(dir){
           if(dir.kind == 'file'){
               return {
-                  name: dir.name,
-                  childs: [],
+                    file: dir,
+                    name: dir.name,
+                    childs: [],
               }
           }
           
           let childs = [];
 
           for await (const entry of dir.values()) {
+            console.log('ENTRY', entry);
             if(entry.kind == 'file'){
                 childs.push({
                     file: entry,
@@ -28,7 +30,10 @@ function FileNavigator(){
             });
             childs.push(await DFS(subDir));
         }
+        console.log(childs);
+
         return {
+            file: dir,
             name: dir.name,
             childs: childs,
         }
@@ -43,7 +48,7 @@ function FileNavigator(){
     return (
         <>
             <button onClick={handleOpenDirectory}>Open Directory</button>
-            <DirectoryDisplay directoryTree={directoryTree} />
+            <DirectoryDisplay directoryTree={directoryTree} fileRenderer={fileRenderer}/>
         </>
     );
 }
